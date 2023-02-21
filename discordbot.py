@@ -23,7 +23,7 @@ API = os.environ['API']
 client = commands.Bot(command_prefix="^")
 
 
-api = "API"
+api = API
 
 
 version_list = requests.get("https://ddragon.leagueoflegends.com/api/versions.json").json()
