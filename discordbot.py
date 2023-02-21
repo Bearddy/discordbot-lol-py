@@ -215,12 +215,14 @@ async def 정보(ctx, *, player: str):
             else:
                 embed.add_field(name="솔랭 전적", value="Unranked", inline=False)
             embed.add_field(name="가장 높은 숙련도",value=most_champion_name +" "+ most_champion_points +" 점 ", inline= False)
-            embed.set_footer(text='test')
+            embed.set_footer(text='by Bearddy#4453')
             
             await ctx.send(embed=embed)
             break
             
 
+    elif res.status_code == 403:
+        await ctx.send("API 가 만료되었습키다. 개발자에게 문의 해주세요")
     else:
         await ctx.send("소환사가 존재하지 않습니다")
             
@@ -328,6 +330,8 @@ async def 게임(ctx, *, player: str):
         else:
             await ctx.send(Final_Name + "님은 게임중이 아닙니다!")
 
+    elif res.status_code == 403:
+        await ctx.send("API 가 만료되었습키다. 개발자에게 문의 해주세요")
     else:
         await ctx.send("소환사가 존재하지 않습니다")
             
