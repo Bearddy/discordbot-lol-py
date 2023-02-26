@@ -131,7 +131,7 @@ async def 팀(ctx, *, players: str):
     await ctx.send(embed=embed)
 
 @client.command()
-async def team(ctx, channel: discord.VoiceChannel):
+async def 자동(ctx, channel: discord.VoiceChannel):
     #channel = client.get_channel(id)
     #if channel is None:
         #await ctx.send("해당 아이디를 가진 음성채널이 없습니다")
