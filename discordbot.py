@@ -99,7 +99,7 @@ def getDetailRuneImage(name: int):
 @client.event
 async def on_ready():
     print("봇이 시작됨")
-    game = discord.Game('^팀 x/y/z/w/....')
+    game = discord.Game('^help')
     await client.change_presence(status=discord.Status.online, activity=game)
 
 
