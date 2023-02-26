@@ -140,7 +140,7 @@ async def 자동(ctx, channel: discord.VoiceChannel):
     list = []
     for member in members:
         if not member.bot:
-            list.append(member.name)
+            list.append(member.display_name)
 
     count = len(list)
     
