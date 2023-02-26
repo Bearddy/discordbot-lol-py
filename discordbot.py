@@ -102,7 +102,11 @@ async def on_ready():
     game = discord.Game('^help')
     await client.change_presence(status=discord.Status.online, activity=game)
 
-
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.ChannelNotFound):
+        await ctx.send("해당 이름을 가진 음성채널을 찾지 못했습니다")
+        
 @client.command()
 async def 팀(ctx, *, players: str):
     list = players.split("/")
