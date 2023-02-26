@@ -20,7 +20,8 @@ API = os.environ['API']
 # imgs = Image.open(BytesIO(req))
 
 
-client = commands.Bot(command_prefix="^")
+intents = discord.Intents().all()
+client = commands.Bot(command_prefix="^", intents=intents)
 
 
 api = API
@@ -129,6 +130,48 @@ async def 팀(ctx, *, players: str):
     embed.add_field(name="팀2:", value=team2_list, inline=False)
     await ctx.send(embed=embed)
 
+@client.command()
+async def team(ctx, channel: discord.VoiceChannel):
+    #channel = client.get_channel(id)
+    #if channel is None:
+        #await ctx.send("해당 아이디를 가진 음성채널이 없습니다")
+        #return
+    members = channel.members
+    list = []
+    for member in members:
+        if not member.bot:
+            list.append(member.name)
+
+    count = len(list)
+    
+    if count < 2:
+        await ctx.send("해당 음성채널에 최소 두명이상이 있을때 사용해주세요")
+    else:
+        random.shuffle(list)
+        
+        team1_list = ""
+        team2_list = ""
+        
+        
+
+        half = int(count / 2)
+        for i in range(0, count):
+            if(i < half):    
+                team1_list = team1_list + list[i] + ", "
+            else:
+                team2_list = team2_list + list[i] + ", "
+                                
+
+        team1_list = team1_list[:-2]
+        team2_list = team2_list[:-2]
+            
+    
+        embed = discord.Embed(title="*완성된 팀*", description="　", color=0x00ffff)          
+        embed.add_field(name="팀1:", value=team1_list, inline=False)
+        embed.add_field(name="팀2:", value=team2_list, inline=False)
+        await ctx.send(embed=embed)
+
+    
 @client.command()
 async def 정보(ctx, *, player: str):
     Final_Name = player
