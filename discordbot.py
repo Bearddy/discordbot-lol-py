@@ -384,7 +384,7 @@ async def 게임(ctx, *, player: str):
 
         
 @client.command()
-async def 청소(self, ctx: Context, count: int):
+async def 청소(ctx, *, count: int):
 
     """
     채팅청소를 해준다
