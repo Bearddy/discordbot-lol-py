@@ -381,7 +381,28 @@ async def 게임(ctx, *, player: str):
         await ctx.send("API 가 만료되었습키다. 개발자에게 문의 해주세요")
     else:
         await ctx.send("소환사가 존재하지 않습니다")
-            
+
+        
+@client.command()
+async def 청소(self, ctx: Context, count: int):
+
+    """
+    채팅청소를 해준다
+    """
+
+    if ctx.author.guild_permissions.administrator:
+        if count < 21 and count > 0 :
+            await ctx.channel.purge(limit=count + 1)
+            await ctx.send(str(count) + "개의 메시지를 청소했습니다")
+        elif count < 0 or count > 20:
+            if count > 20:
+                await ctx.send("그렇게나 많은 메시지를 지울필요는 없어보이는데요?")
+            elif count < 0:
+                count *= -1
+                await ctx.channel.purge(limit=count+1)
+                await ctx.send(str(count) + "개의 메시지를 청소했습니다")
+    else:
+        await ctx.send("관리자 권한이 없습니다")
 
 try:
     client.run(TOKEN)
