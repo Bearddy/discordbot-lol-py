@@ -332,7 +332,7 @@ async def 게임(ctx, *, player: str):
 
                 im.paste(blank, (399, 150))  # 구분선
                 
-                font = ImageFont.truetype("NanumGothic.ttf", 40)
+                font = ImageFont.truetype("H2GTRM.TTF", 40)
                 d = ImageDraw.Draw(im)
                 d.text((150, 90), "블루 팀", font=font, fill=(0, 0, 0))
                 if(res.json()["gameMode"] == "CLASSIC"):
@@ -348,11 +348,11 @@ async def 게임(ctx, *, player: str):
                     d.text((310, 20), "칼바람의 나락", font=font, fill=(0, 0, 0))
                 d.text((550, 90), "레드 팀", font=font, fill=(0, 0, 0))
                 
-                font = ImageFont.truetype("NanumGothic.ttf", 25)
+                font = ImageFont.truetype("H2GTRM.TTF", 25)
                 for i, data in zip(range(1, 11), participants):
                     if i < 6:
-                        print(i)
-                        await ctx.send(getChampionImage(data['championId']))
+                        #print(i)
+                        #await ctx.send(getChampionImage(data['championId']))
                         im.paste(getChampionImage(data['championId']), (10, i * 100 + 55))
                         im.paste(getSpellImage(data['spell1Id']), ((10, i * 100 + 120)))
                         im.paste(getSpellImage(data['spell2Id']), ((43, i * 100 + 120)))
