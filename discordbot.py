@@ -309,7 +309,7 @@ async def 게임(ctx, *, player: str):
                     participants_row["rune1"] = row["perks"]['perkIds'][0]
                     participants_row["rune2"] = row["perks"]['perkSubStyle']
                     participants.append(participants_row)
-                
+                await ctx.send(participants)
                 im = Image.new("RGB", (800, 650), (255, 255, 255))
                 blue_image = Image.new("RGB", (400, 75), (37, 134, 245))
                 inform_image = Image.new("RGB", (800, 75), (25, 255, 50))
