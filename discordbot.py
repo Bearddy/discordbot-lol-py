@@ -351,7 +351,7 @@ async def 게임(ctx, *, player: str):
                 font = ImageFont.truetype("NanumGothic.ttf", 25)
                 for i, data in zip(range(1, 11), participants):
                     if i < 6:
-                        await ctx.send(data)
+                        print("\n\n" + data)
                         await ctx.send(getChampionImage(data['championId']))
                         im.paste(getChampionImage(data['championId']), (10, i * 100 + 55))
                         im.paste(getSpellImage(data['spell1Id']), ((10, i * 100 + 120)))
