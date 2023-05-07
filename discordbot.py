@@ -308,11 +308,11 @@ async def 게임(ctx, *, player: str):
                     participants_row["spell2Id"] = row["spell2Id"]
                     participants_row["rune1"] = row["perks"]['perkIds'][0]
                     participants_row["rune2"] = row["perks"]['perkSubStyle']
-                    await ctx.send(participants_row)
-                    await ctx.send(row["championId"])
+                    #await ctx.send(participants_row)
+                    #await ctx.send(row["championId"])
 
                     participants.append(participants_row)
-                await ctx.send(participants)
+                #await ctx.send(participants)
 
                 im = Image.new("RGB", (800, 650), (255, 255, 255))
                 blue_image = Image.new("RGB", (400, 75), (37, 134, 245))
@@ -351,7 +351,8 @@ async def 게임(ctx, *, player: str):
                 font = ImageFont.truetype("NanumGothic.ttf", 25)
                 for i, data in zip(range(1, 11), participants):
                     if i < 6:
-                        #print(data)
+                        await ctx.send(data)
+                        await ctx.send(getChampionImage(data['championId']))
                         im.paste(getChampionImage(data['championId']), (10, i * 100 + 55))
                         im.paste(getSpellImage(data['spell1Id']), ((10, i * 100 + 120)))
                         im.paste(getSpellImage(data['spell2Id']), ((43, i * 100 + 120)))
