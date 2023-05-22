@@ -434,19 +434,19 @@ async def 게임(ctx, *, player: str):
                 
                 font = ImageFont.truetype("MALGUN.TTF", 40)
                 d = ImageDraw.Draw(im)
-                d.text((150, 90), "블루 팀", font=font, fill=(0, 0, 0))
+                d.text((140, 80), "블루 팀", font=font, fill=(0, 0, 0))
                 if(res.json()["gameMode"] == "CLASSIC"):
                     if(res.json()["gameQueueConfigId"] == 430):
-                        d.text((330, 20), "일반 게임", font=font, fill=(0, 0, 0))
+                        d.text((320, 10), "일반 게임", font=font, fill=(0, 0, 0))
                     elif(res.json()["gameQueueConfigId"] == 420):
-                        d.text((330, 20), "솔로 랭크", font=font, fill=(0, 0, 0))
+                        d.text((320, 10), "솔로 랭크", font=font, fill=(0, 0, 0))
                     elif(res.json()["gameQueueConfigId"] == 440):
-                        d.text((330, 20), "자유 랭크", font=font, fill=(0, 0, 0))
+                        d.text((320, 10), "자유 랭크", font=font, fill=(0, 0, 0))
                 elif(res.json()["gameMode"] == "ULTBOOK"):
-                    d.text((310, 20), "궁극기 주문서", font=font, fill=(0, 0, 0))
+                    d.text((300, 10), "궁극기 주문서", font=font, fill=(0, 0, 0))
                 elif(res.json()["gameMode"] == "ARAM"):
-                    d.text((310, 20), "칼바람의 나락", font=font, fill=(0, 0, 0))
-                d.text((550, 90), "레드 팀", font=font, fill=(0, 0, 0))
+                    d.text((300, 10), "칼바람의 나락", font=font, fill=(0, 0, 0))
+                d.text((540, 80), "레드 팀", font=font, fill=(0, 0, 0))
 
                 font = ImageFont.truetype("MALGUN.TTF", 25)
                 for i, data in zip(range(1, 11), participants):
@@ -458,7 +458,7 @@ async def 게임(ctx, *, player: str):
                         im.paste(getSpellImage(data['spell2Id']), ((43, i * 100 + 120)))
                         im.paste(getDetailRuneImage(data['rune1']), ((75, i * 100 + 55)))
                         im.paste(getRuneImage(data['rune2']), ((77, i * 100 + 90)))
-                        d.text((150, i * 100 + 90), data["summonerName"], font=font, fill=(0, 0, 0))
+                        d.text((140, i * 100 + 80), data["summonerName"], font=font, fill=(0, 0, 0))
                     else:
                         #print(data)
                         im.paste(getChampionImage(data['championId']), (410, (i - 5) * 100 + 55))
@@ -466,7 +466,7 @@ async def 게임(ctx, *, player: str):
                         im.paste(getSpellImage(data['spell2Id']), ((443, (i - 5) * 100 + 120)))
                         im.paste(getDetailRuneImage(data['rune1']), ((475, (i - 5 )* 100 + 55)))
                         im.paste(getRuneImage(data['rune2']), ((477, (i - 5) * 100 + 90)))
-                        d.text((550, (i - 5) * 100 + 90), data["summonerName"], font=font, fill=(0, 0, 0))
+                        d.text((540, (i - 5) * 100 + 80), data["summonerName"], font=font, fill=(0, 0, 0))
 
                 with BytesIO() as image_binary:
 
