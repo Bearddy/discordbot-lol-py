@@ -437,11 +437,11 @@ async def 게임(ctx, *, player: str):
                 d.text((140, 85), "블루 팀", font=font, fill=(0, 0, 0))
                 if(res.json()["gameMode"] == "CLASSIC"):
                     if(res.json()["gameQueueConfigId"] == 430):
-                        d.text((320, 10), "일반 게임", font=font, fill=(0, 0, 0))
+                        d.text((310, 10), "일반 게임", font=font, fill=(0, 0, 0))
                     elif(res.json()["gameQueueConfigId"] == 420):
-                        d.text((320, 10), "솔로 랭크", font=font, fill=(0, 0, 0))
+                        d.text((310, 10), "솔로 랭크", font=font, fill=(0, 0, 0))
                     elif(res.json()["gameQueueConfigId"] == 440):
-                        d.text((320, 10), "자유 랭크", font=font, fill=(0, 0, 0))
+                        d.text((310, 10), "자유 랭크", font=font, fill=(0, 0, 0))
                 elif(res.json()["gameMode"] == "ULTBOOK"):
                     d.text((300, 10), "궁극기 주문서", font=font, fill=(0, 0, 0))
                 elif(res.json()["gameMode"] == "ARAM"):
