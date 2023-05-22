@@ -443,9 +443,9 @@ async def 게임(ctx, *, player: str):
                     elif(res.json()["gameQueueConfigId"] == 440):
                         d.text((315, 10), "자유 랭크", font=font, fill=(0, 0, 0))
                 elif(res.json()["gameMode"] == "ULTBOOK"):
-                    d.text((285, 10), "궁극기 주문서", font=font, fill=(0, 0, 0))
+                    d.text((280, 10), "궁극기 주문서", font=font, fill=(0, 0, 0))
                 elif(res.json()["gameMode"] == "ARAM"):
-                    d.text((285, 10), "칼바람의 나락", font=font, fill=(0, 0, 0))
+                    d.text((280, 10), "칼바람의 나락", font=font, fill=(0, 0, 0))
                 d.text((540, 85), "레드 팀", font=font, fill=(0, 0, 0))
 
                 font = ImageFont.truetype("MALGUN.TTF", 25)
