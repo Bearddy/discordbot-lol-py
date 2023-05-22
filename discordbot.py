@@ -184,7 +184,7 @@ async def 팀(ctx, *, players: str):
     await ctx.send(embed=embed)
 
 @client.command()
-async def 자동(ctx, channel: discord.VoiceChannel):
+async def 자동(ctx, *, channel: discord.VoiceChannel):
     id = ctx.guild.id
     v_channel[id] = channel
 
