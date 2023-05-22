@@ -428,51 +428,53 @@ async def 게임(ctx, *, player: str):
                         im.paste(line, (0, j * 100 + 50))
 
                 im.paste(blank, (399, 150))  # 구분선
-                
-                font = ImageFont.truetype("FreeMono.ttf", 40)
-                d = ImageDraw.Draw(im)
-                d.text((150, 90), "블루 팀", font=font, fill=(0, 0, 0))
-                if(res.json()["gameMode"] == "CLASSIC"):
-                    if(res.json()["gameQueueConfigId"] == 430):
-                        d.text((330, 20), "일반 게임", font=font, fill=(0, 0, 0))
-                    elif(res.json()["gameQueueConfigId"] == 420):
-                        d.text((330, 20), "솔로 랭크", font=font, fill=(0, 0, 0))
-                    elif(res.json()["gameQueueConfigId"] == 440):
-                        d.text((330, 20), "자유 랭크", font=font, fill=(0, 0, 0))
-                elif(res.json()["gameMode"] == "ULTBOOK"):
-                    d.text((310, 20), "궁극기 주문서", font=font, fill=(0, 0, 0))
-                elif(res.json()["gameMode"] == "ARAM"):
-                    d.text((310, 20), "칼바람의 나락", font=font, fill=(0, 0, 0))
-                d.text((550, 90), "레드 팀", font=font, fill=(0, 0, 0))
-                
-                font = ImageFont.truetype("FreeMono.ttf", 25)
-                for i, data in zip(range(1, 11), participants):
-                    if i < 6:
-                        #print(i)
-                        #await ctx.send(getChampionImage(data['championId']))
-                        im.paste(getChampionImage(data['championId']), (10, i * 100 + 55))
-                        im.paste(getSpellImage(data['spell1Id']), ((10, i * 100 + 120)))
-                        im.paste(getSpellImage(data['spell2Id']), ((43, i * 100 + 120)))
-                        im.paste(getDetailRuneImage(data['rune1']), ((75, i * 100 + 55)))
-                        im.paste(getRuneImage(data['rune2']), ((77, i * 100 + 90)))
-                        d.text((150, i * 100 + 90), data["summonerName"], font=font, fill=(0, 0, 0))
-                    else:
-                        #print(data)
-                        im.paste(getChampionImage(data['championId']), (410, (i - 5) * 100 + 55))
-                        im.paste(getSpellImage(data['spell1Id']), ((410, (i - 5) * 100 + 120)))
-                        im.paste(getSpellImage(data['spell2Id']), ((443, (i - 5) * 100 + 120)))
-                        im.paste(getDetailRuneImage(data['rune1']), ((475, (i - 5 )* 100 + 55)))
-                        im.paste(getRuneImage(data['rune2']), ((477, (i - 5) * 100 + 90)))
-                        d.text((550, (i - 5) * 100 + 90), data["summonerName"], font=font, fill=(0, 0, 0))
-                
-                with BytesIO() as image_binary:
-        
-                    im.save(image_binary, "png")
+                font_url = "https://github.com/googlefonts/roboto/blob/master/src/hinted/Roboto-Regular.ttf?raw=true"
+                with webfont(font_url) as f:
+                    
+                    font = ImageFont.truetype(f, 40)
+                    d = ImageDraw.Draw(im)
+                    d.text((150, 90), "블루 팀", font=font, fill=(0, 0, 0))
+                    if(res.json()["gameMode"] == "CLASSIC"):
+                        if(res.json()["gameQueueConfigId"] == 430):
+                            d.text((330, 20), "일반 게임", font=font, fill=(0, 0, 0))
+                        elif(res.json()["gameQueueConfigId"] == 420):
+                            d.text((330, 20), "솔로 랭크", font=font, fill=(0, 0, 0))
+                        elif(res.json()["gameQueueConfigId"] == 440):
+                            d.text((330, 20), "자유 랭크", font=font, fill=(0, 0, 0))
+                    elif(res.json()["gameMode"] == "ULTBOOK"):
+                        d.text((310, 20), "궁극기 주문서", font=font, fill=(0, 0, 0))
+                    elif(res.json()["gameMode"] == "ARAM"):
+                        d.text((310, 20), "칼바람의 나락", font=font, fill=(0, 0, 0))
+                    d.text((550, 90), "레드 팀", font=font, fill=(0, 0, 0))
 
-                    image_binary.seek(0)
-    
-                    out = discord.File(fp=image_binary, filename="image.png")
-                    await ctx.send(file=out)
+                    font = ImageFont.truetype(f, 25)
+                    for i, data in zip(range(1, 11), participants):
+                        if i < 6:
+                            #print(i)
+                            #await ctx.send(getChampionImage(data['championId']))
+                            im.paste(getChampionImage(data['championId']), (10, i * 100 + 55))
+                            im.paste(getSpellImage(data['spell1Id']), ((10, i * 100 + 120)))
+                            im.paste(getSpellImage(data['spell2Id']), ((43, i * 100 + 120)))
+                            im.paste(getDetailRuneImage(data['rune1']), ((75, i * 100 + 55)))
+                            im.paste(getRuneImage(data['rune2']), ((77, i * 100 + 90)))
+                            d.text((150, i * 100 + 90), data["summonerName"], font=font, fill=(0, 0, 0))
+                        else:
+                            #print(data)
+                            im.paste(getChampionImage(data['championId']), (410, (i - 5) * 100 + 55))
+                            im.paste(getSpellImage(data['spell1Id']), ((410, (i - 5) * 100 + 120)))
+                            im.paste(getSpellImage(data['spell2Id']), ((443, (i - 5) * 100 + 120)))
+                            im.paste(getDetailRuneImage(data['rune1']), ((475, (i - 5 )* 100 + 55)))
+                            im.paste(getRuneImage(data['rune2']), ((477, (i - 5) * 100 + 90)))
+                            d.text((550, (i - 5) * 100 + 90), data["summonerName"], font=font, fill=(0, 0, 0))
+
+                    with BytesIO() as image_binary:
+
+                        im.save(image_binary, "png")
+
+                        image_binary.seek(0)
+
+                        out = discord.File(fp=image_binary, filename="image.png")
+                        await ctx.send(file=out)
             elif(res.json()["gameType"] == "CUSTOM_GAME"):
                 await ctx.send(Final_Name + "님은 사용자 설정 게임 중입니다")
                 
