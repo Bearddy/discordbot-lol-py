@@ -14,6 +14,7 @@ API = os.environ['API']
 
 
 
+
 # pic_url = ("https://ddragon.leagueoflegends.com/cdn/11.4.1/img/champion/Teemo.png")
 # req = requests.get(pic_url).content
 
@@ -101,12 +102,57 @@ async def on_ready():
     print("봇이 시작됨")
     game = discord.Game('^help')
     await client.change_presence(status=discord.Status.online, activity=game)
+    init()
+
+@client.event
+async def on_guild_join(guild):
+    modify(guild)
+    
+
+def init():
+    global temp_team1, temp_team2, made, start, v_channel, v_channel1, v_channel2, cat, role1, role2
+    temp_team1 = {}
+    temp_team2 = {}
+    made = {}
+    start = {}
+    v_channel = {}
+    v_channel1 = {}
+    v_channel2 = {}
+    role1 = {}
+    role2 = {}
+    cat = {}
+    for guild in client.guilds:
+        id = guild.id
+        temp_team1[id] = []
+        temp_team2[id] = []
+        made[id] = False
+        start[id] = False
+        v_channel[id] = []
+        v_channel1[id] = []
+        v_channel2[id] = []
+        cat[id] = []
+        role1[id] = []
+        role2[id] = []
+
+def modify(guild):
+    id = guild.id
+    temp_team1[id] = []
+    temp_team2[id] = []
+    made[id] = False
+    start[id] = False
+    v_channel[id] = []
+    v_channel1[id] = []
+    v_channel2[id] = []
+    cat[id] = []
+    role1[id] = []
+    role2[id] = []
 
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.ChannelNotFound):
         await ctx.send("해당 이름을 가진 음성채널을 찾지 못했습니다")
-        
+
+
 @client.command()
 async def 팀(ctx, *, players: str):
     list = players.split("/")
@@ -120,14 +166,17 @@ async def 팀(ctx, *, players: str):
     half = int(count / 2)
     for i in range(0, count):
         if(i < half):    
-            team1_list = team1_list + list[i] + ", "
+            team1_list = team1_list + list[i].display_name + ", "
+            temp_team1.append(list[i])
         else:
-            team2_list = team2_list + list[i] + ", "
+            team2_list = team2_list + list[i].display_name + ", "
+            temp_team2.append(list[i])
                             
 
     team1_list = team1_list[:-2]
     team2_list = team2_list[:-2]
-        
+    temp_mem = list
+    made = True
  
     embed = discord.Embed(title="*완성된 팀*", description="　", color=0x00ffff)          
     embed.add_field(name="팀1:", value=team1_list, inline=False)
@@ -136,15 +185,14 @@ async def 팀(ctx, *, players: str):
 
 @client.command()
 async def 자동(ctx, channel: discord.VoiceChannel):
-    #channel = client.get_channel(id)
-    #if channel is None:
-        #await ctx.send("해당 아이디를 가진 음성채널이 없습니다")
-        #return
+    id = ctx.guild.id
+    v_channel[id] = channel
+
     members = channel.members
     list = []
     for member in members:
         if not member.bot:
-            list.append(member.display_name)
+            list.append(member)
 
     count = len(list)
     
@@ -152,35 +200,84 @@ async def 자동(ctx, channel: discord.VoiceChannel):
         await ctx.send("해당 음성채널에 최소 두명이상이 있을때 사용해주세요")
     else:
         random.shuffle(list)
-        
         team1_list = ""
         team2_list = ""
-        
-        
-
+   
         half = int(count / 2)
         for i in range(0, count):
             if(i < half):    
-                team1_list = team1_list + list[i] + ", "
+                team1_list = team1_list + list[i].display_name + ", "
+                temp_team1[id].append(list[i])
             else:
-                team2_list = team2_list + list[i] + ", "
-                                
+                team2_list = team2_list + list[i].display_name + ", "
+                temp_team2[id].append(list[i])                
 
         team1_list = team1_list[:-2]
         team2_list = team2_list[:-2]
-            
+
+        made[id] = True
     
         embed = discord.Embed(title="*완성된 팀*", description="　", color=0x00ffff)          
         embed.add_field(name="팀1:", value=team1_list, inline=False)
         embed.add_field(name="팀2:", value=team2_list, inline=False)
         await ctx.send(embed=embed)
 
+@client.command()
+async def 시작(ctx):
+    id = ctx.guild.id
+    if made[id]:
+        start[id] = True
+
+        cat[id] = await ctx.guild.create_category("내전방")
+        v_channel1[id] = await ctx.guild.create_voice_channel("내전 팀 1", category=cat[id], user_limit=len(temp_team1[id]))
+        v_channel2[id] = await ctx.guild.create_voice_channel("내전 팀 2", category=cat[id], user_limit=len(temp_team2[id]))
+        role1[id] = await ctx.guild.create_role(name="내전 팀 1")
+        role2[id] = await ctx.guild.create_role(name="내전 팀 2")
+        
+      
+
+        perms1 = v_channel1[id].overwrites_for(role2[id])
+        perms1.connect = False
+        perms2 = v_channel2[id].overwrites_for(role1[id])
+        perms2.connect=False
+        await v_channel1[id].set_permissions(role2[id], overwrite=perms1)
+        await v_channel2[id].set_permissions(role1[id], overwrite=perms2)
+
+        for pl in temp_team1[id]:
+            await pl.add_roles(role1[id])
+            await pl.move_to(v_channel1[id])
+        for pl in temp_team2[id]:
+            await pl.add_roles(role2[id])
+            await pl.move_to(v_channel2[id])
+    else:
+        await ctx.send("아직 팀을 생성하지 않았습니다")
+
+@client.command()
+async def 정리(ctx):
+    id = ctx.guild.id
+    if made[id] and start[id]:
+        for pl in temp_team1[id]:
+            await pl.move_to(v_channel[id])
+        for pl in temp_team2[id]:
+            await pl.move_to(v_channel[id])
+        await v_channel1[id].delete()
+        await v_channel2[id].delete()
+        await cat[id].delete()
+        await role1[id].delete()
+        await role2[id].delete()
+        
+        temp_team1[id] = []
+        temp_team2[id] = []
+        start[id] = False
+        made[id] = False
+    else:
+        await ctx.send("아직 시작을 안했습니다")
+    
+        
     
 @client.command()
 async def 정보(ctx, *, player: str):
     Final_Name = player
-
-    
 
     URL = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+Final_Name #0.8초 소요
     res = requests.get(URL, headers={"X-Riot-Token": api})
