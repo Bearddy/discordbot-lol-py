@@ -429,7 +429,7 @@ async def 게임(ctx, *, player: str):
 
                 im.paste(blank, (399, 150))  # 구분선
                 
-                font = ImageFont.truetype("malgun.ttf", 40)
+                font = ImageFont.truetype("arial.ttf", 40)
                 d = ImageDraw.Draw(im)
                 d.text((150, 90), "블루 팀", font=font, fill=(0, 0, 0))
                 if(res.json()["gameMode"] == "CLASSIC"):
@@ -445,7 +445,7 @@ async def 게임(ctx, *, player: str):
                     d.text((310, 20), "칼바람의 나락", font=font, fill=(0, 0, 0))
                 d.text((550, 90), "레드 팀", font=font, fill=(0, 0, 0))
                 
-                font = ImageFont.truetype("malgun.ttf", 25)
+                font = ImageFont.truetype("arial.ttf", 25)
                 for i, data in zip(range(1, 11), participants):
                     if i < 6:
                         #print(i)
