@@ -204,6 +204,8 @@ async def 자동(ctx, *, channel: discord.VoiceChannel):
         team2_list = ""
    
         half = int(count / 2)
+        temp_team1[id] = []
+        temp_team2[id] = []
         for i in range(0, count):
             if(i < half):    
                 team1_list = team1_list + list[i].display_name + ", "
