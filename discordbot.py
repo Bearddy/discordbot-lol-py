@@ -256,9 +256,13 @@ async def 찾기(ctx, *, member: discord.Member):
     id = ctx.guild.id
     if made[id]:
         if member in temp_team1[id]:
-            await ctx.send("팀 1 "+ (temp_team1[id].index(member) - 1) + "번째에 있습니다")
+            print("test")
+            print(temp_team1[id].index(member))
+            await ctx.send("팀1의 " + (str(temp_team1[id].index(member) + 1)) + "번째에 있습니다")
         elif member in temp_team2[id]:
-            await ctx.send("팀 2 "+ (temp_team2[id].index(member) - 1) + "번째에 있습니다")
+            await ctx.send("팀2의 "+ (str(temp_team2[id].index(member) + 1)) + "번째에 있습니다")
+    else:
+        await ctx.send("아직 팀을 안만들었습니다")
 
 @client.command()
 async def 시작(ctx):
