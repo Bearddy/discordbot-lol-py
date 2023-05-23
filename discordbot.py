@@ -223,7 +223,28 @@ async def 자동(ctx, *, channel: discord.VoiceChannel):
         embed.add_field(name="팀1:", value=team1_list, inline=False)
         embed.add_field(name="팀2:", value=team2_list, inline=False)
         await ctx.send(embed=embed)
+        
+@client.command()
+async def 교환(ctx, index1: int, index2: int):
+    id = ctx.guild.id
+    if made[id]:
+        if index1 <= len(temp_team1[id]) and index2 <= len(temp_team2[id]):
+            temp = temp_team1[id][index1]
+            temp_team1[id][index1] = temp_team2[id][index2]
+            temp_team2[id][index2] = temp
+            for i in range(0, len(temp_team1[id])):
+                team1_list = team1_list + temp_team1[id][i].display_name + ", "
+            for i in range(0, len(temp_team2[id])):
+                team2_list = team2_list + temp_team2[id][i].display_name + ", "            
 
+            team1_list = team1_list[:-2]
+            team2_list = team2_list[:-2]
+
+            embed = discord.Embed(title="*교환된 팀*", description="　", color=0x00ffff)          
+            embed.add_field(name="팀1:", value=team1_list, inline=False)
+            embed.add_field(name="팀2:", value=team2_list, inline=False)
+            await ctx.send(embed=embed)
+            
 @client.command()
 async def 시작(ctx):
     id = ctx.guild.id
